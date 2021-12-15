@@ -4,8 +4,8 @@ import loading from './loading.svg';
 class Callback extends Component {
   constructor(props) {
     super(props);
-
-    if (/access_token|id_token|error/.test(props.location.hash)) {
+    console.log('init callback', props);
+    if (/access_token|id_token|error/.test(window.location.hash)) {
       props.auth.handleAuthentication();
     }
   }

@@ -1,8 +1,9 @@
 import React from 'react';
-import { Tooltip, Input, Button, Icon } from 'antd';
+import { Tooltip, Input, Button } from 'antd';
+import { WarningFilled } from '@ant-design/icons';
 import RoomCleanButton from './components/RoomCleanButton';
 
-export default function(context) {
+export default function (context) {
   return {
     title: 'Room',
     key: 'room',
@@ -17,10 +18,10 @@ export default function(context) {
     }) => (
       <div className="custom-filter-dropdown">
         <Input
-          ref={ele => (context.roomSearchInput = ele)}
+          ref={(ele) => (context.roomSearchInput = ele)}
           placeholder="Search name"
           value={selectedKeys[0]}
-          onChange={e =>
+          onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
           onPressEnter={context.handleRoomSearch(selectedKeys, confirm)}
@@ -36,7 +37,7 @@ export default function(context) {
     ),
     onFilter: (value, room) =>
       room.name.toLowerCase().includes(value.toLowerCase()),
-    onFilterDropdownVisibleChange: visible => {
+    onFilterDropdownVisibleChange: (visible) => {
       if (visible) {
         setTimeout(() => {
           context.roomSearchInput.focus();
@@ -59,7 +60,7 @@ export default function(context) {
             <Tooltip title={tooltip} placement="top">
               {roomSearchText ? (
                 <span style={{ fontStyle: 'bold' }}>
-                  {room.isNotInDatabase && <Icon type="warning" />}
+                  {room.isNotInDatabase && <WarningFilled />}
                   {room.name
                     .split(
                       new RegExp(
@@ -81,7 +82,7 @@ export default function(context) {
                 </span>
               ) : (
                 <span style={{ fontStyle: 'bold' }}>
-                  {room.isNotInDatabase && <Icon type="warning" />}
+                  {room.isNotInDatabase && <WarningFilled />}
                   {room.name}
                 </span>
               )}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import moment from 'moment';
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/client/react/components';
 import { message, Table, DatePicker } from 'antd';
 
 import columns from './columns';
@@ -60,12 +60,12 @@ class RoomTable extends Component {
     this.setState({ roomSearchText: selectedKeys[0] });
   };
 
-  handleRoomReset = clearFilters => () => {
+  handleRoomReset = (clearFilters) => () => {
     clearFilters();
     this.setState({ roomSearchText: '' });
   };
 
-  handleDateChange = date => {
+  handleDateChange = (date) => {
     if (date) {
       this.setState({ date });
     }
@@ -85,6 +85,10 @@ class RoomTable extends Component {
             return <Table dataSource={[]} columns={columns} />;
           }
 
+          if (loading) {
+            return <div>loading...</div>;
+          }
+
           return (
             <div>
               <div style={{ marginBottom: '15px' }}>
@@ -96,11 +100,11 @@ class RoomTable extends Component {
                   data.rooms &&
                   data.rooms.sort((a, b) => a.priority - b.priority)
                 }
-                columns={columns.map(column => column(this))}
+                columns={columns.map((column) => column(this))}
                 loading={loading}
                 pagination={false}
                 rowKey="id"
-                rowClassName={room => (room.isNotInDatabase ? 'warning' : '')}
+                rowClassName={(room) => (room.isNotInDatabase ? 'warning' : '')}
                 scroll={{ x: 650 }}
               />
             </div>

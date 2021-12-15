@@ -1,10 +1,12 @@
 import React from 'react';
-import { List, Icon } from 'antd';
+import { List } from 'antd';
+import { SwapOutlined } from '@ant-design/icons';
+
 import GuestName from './components/GuestName';
 import RoomKeyButton from './components/RoomKeyButton';
 
 // Colors from: https://ant.design/docs/react/customize-theme
-export default function(context) {
+export default function (context) {
   return {
     title: 'Arrivals',
     key: 'arrivals',
@@ -19,7 +21,7 @@ export default function(context) {
 }
 
 const ArrivingGuestList = ({ room, guests }) => {
-  const roomSetup = guests.filter(guest => guest.roomSetup);
+  const roomSetup = guests.filter((guest) => guest.roomSetup);
 
   if (guests.length === 0) {
     return <span style={{ color: '#52c41a' }}>None</span>;
@@ -30,7 +32,7 @@ const ArrivingGuestList = ({ room, guests }) => {
       <List
         size="small"
         dataSource={guests}
-        renderItem={guest => (
+        renderItem={(guest) => (
           <List.Item>
             <ArrivingGuest room={room} guest={guest} />
           </List.Item>
@@ -38,7 +40,7 @@ const ArrivingGuestList = ({ room, guests }) => {
       />
       {roomSetup.length > 0 && <strong>Setup notes:</strong>}
       {roomSetup.length > 0 &&
-        roomSetup.map(guest => <div key={guest.id}>{guest.roomSetup}</div>)}
+        roomSetup.map((guest) => <div key={guest.id}>{guest.roomSetup}</div>)}
     </div>
   );
 };
@@ -57,7 +59,7 @@ const ArrivingGuest = ({ room, guest }) => (
 
 const ArrivingGuestRoomMove = ({ guest }) => (
   <div>
-    <Icon type="swap" style={{ marginRight: '6px' }} />
+    <SwapOutlined style={{ marginRight: '6px' }} />
     <span>{guest.movingFrom}</span>
   </div>
 );

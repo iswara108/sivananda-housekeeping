@@ -7,37 +7,41 @@ const resolvers = require('./resolvers');
 const typeDefs = require('./types');
 const { database, RetreatGuruAPI } = require('./dataSources');
 
-const app = express();
+async function server() {
+  const app = express();
 
-app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
+  app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
 
-const server = new ApolloServer({
-  debug: true,
-  introspection: true,
-  playground: true,
-  typeDefs,
-  resolvers,
-  cache: new InMemoryLRUCache({
-    maxSize: 100 * 1000 * 1000, // divided by 2 bytes per string char ~ 50MB cache storage
-  }),
-  async context({ req }) {
-    return {
-      user: await authenticate(req),
-    };
-  },
-  dataSources() {
-    return {
-      database,
-      retreatGuru: new RetreatGuruAPI(),
-    };
-  },
-});
+  const server = new ApolloServer({
+    debug: true,
+    introspection: true,
+    playground: true,
+    typeDefs,
+    resolvers,
+    cache: new InMemoryLRUCache({
+      maxSize: 100 * 1000 * 1000, // divided by 2 bytes per string char ~ 50MB cache storage
+    }),
+    async context({ req }) {
+      return {
+        user: await authenticate(req),
+      };
+    },
+    dataSources() {
+      return {
+        database,
+        retreatGuru: new RetreatGuruAPI(),
+      };
+    },
+  });
 
-server.applyMiddleware({ app });
+  await server.start();
+  server.applyMiddleware({ app });
 
-// Default routing requests to the client
-app.get('*', function(req, res) {
-  res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));
-});
+  // Default routing requests to the client
+  app.get('*', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));
+  });
 
-module.exports = app;
+  return app;
+}
+module.exports = server;

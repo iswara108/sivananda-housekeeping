@@ -5,9 +5,17 @@ const loadFixture = require('./fixtures');
 const seed = async () => {
   console.log('seeding from fixtures');
 
-  const rooms = await loadFixture('rooms');
+  const rooms = [];
+  const roomsParser = loadFixture('rooms');
+  roomsParser.on('readable', () => {
+    let record;
+    while ((record = roomsParser.read()) !== null) {
+      rooms.push(record);
+    }
+  });
+  console.log('rooms', roomsParser);
   await Room.reconcile(
-    rooms.map(room => ({
+    rooms.map((room) => ({
       _id: room.room_id,
       name: room.room_name,
       lodgingId: room.lodging_id,

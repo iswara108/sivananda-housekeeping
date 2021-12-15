@@ -1,9 +1,10 @@
 import React from 'react';
-import { List, Icon } from 'antd';
+import { List } from 'antd';
+import { SwapOutlined } from '@ant-design/icons';
 import GuestName from './components/GuestName';
 
 // Colors from: https://ant.design/docs/react/customize-theme
-export default function(context) {
+export default function (context) {
   return {
     title: 'Departures',
     key: 'departure',
@@ -50,7 +51,7 @@ const StayingGuestList = ({ guests }) => {
       <List
         size="small"
         dataSource={guests}
-        renderItem={guest => (
+        renderItem={(guest) => (
           <List.Item>
             <GuestName guest={guest} />
           </List.Item>
@@ -68,7 +69,7 @@ const DepartingGuestList = ({ guests }) => {
     <List
       size="small"
       dataSource={guests}
-      renderItem={guest => (
+      renderItem={(guest) => (
         <List.Item>
           <DepartingGuest guest={guest} />
         </List.Item>
@@ -91,7 +92,7 @@ const DepartingGuest = ({ guest }) => (
 
 const DepartingGuestRoomMove = ({ guest }) => (
   <div>
-    <Icon type="swap" style={{ marginRight: '6px' }} />
+    <SwapOutlined style={{ marginRight: '6px' }} />
     <span>{guest.movingTo}</span>
   </div>
 );

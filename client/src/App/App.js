@@ -1,13 +1,13 @@
 import React from 'react';
-import { ApolloProvider } from 'react-apollo';
-import { Route, Link, Redirect } from 'react-router-dom';
+import { ApolloProvider } from '@apollo/client';
+import { Route, Link, Navigate } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
 import client from './apollo';
 import RoomTable from './components/RoomTable';
 
-const App = ({ auth, match, location, history }) => {
-  if (location.pathname !== '/dashboard') {
-    return <Redirect to="/dashboard" />;
+const App = ({ auth }) => {
+  if (window.location.pathname !== '/dashboard') {
+    return <Navigate to="/dashboard" />;
   }
   return (
     <ApolloProvider client={client}>
@@ -35,7 +35,7 @@ const App = ({ auth, match, location, history }) => {
           </Layout.Header>
           <Layout.Content style={{ padding: '10px 10px' }}>
             <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
-              <Route path="/dashboard" component={RoomTable} />
+              <RoomTable />
             </div>
           </Layout.Content>
           <Layout.Footer style={{ textAlign: 'center' }}>

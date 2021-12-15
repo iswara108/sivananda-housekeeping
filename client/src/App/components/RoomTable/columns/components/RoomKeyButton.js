@@ -1,6 +1,6 @@
 import React from 'react';
 import gql from 'graphql-tag';
-import { Mutation } from 'react-apollo';
+import { Mutation } from '@apollo/client/react/components';
 import { message, Button, Tooltip } from 'antd';
 
 const GIVE_ROOM_KEY = gql`
